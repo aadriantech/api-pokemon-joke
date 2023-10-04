@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  pokejoke:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=main
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_ENV=production
+    volumes:
+      - .:/app
