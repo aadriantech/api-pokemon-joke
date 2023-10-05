@@ -15,6 +15,30 @@ def mock_request(mocker):
     mock = mocker.patch('flask.request.args.get')
     return mock
 
+# Sample data to mock the API response
+mock_response_data = {
+    "name": "pikachu",
+    "flavor_text_entries": [
+        {
+            "flavor_text": "A mouse Pokémon.",
+            "language": {"name": "en"}
+        },
+        {
+            "flavor_text": "A tiny creature.",
+            "language": {"name": "fr"}
+        }
+    ]
+}
+
+@pytest.fixture
+def mock_requests_get_patch():
+    with patch("requests.get") as mock_get:
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = mock_response_data
+        mock_get.return_value = mock_response
+        yield mock_get
+
 def test_fetch_joke_single_type(mock_requests_get):
     # Mock the response from the joke API
     mock_response = Mock()
@@ -84,30 +108,6 @@ def test_fetch_pokemon_skills_failure(mock_requests_get):
     skills = instance.fetch_pokemon_skills("pikachu")
     
     assert skills is None
-
-# Sample data to mock the API response
-mock_response_data = {
-    "name": "pikachu",
-    "flavor_text_entries": [
-        {
-            "flavor_text": "A mouse Pokémon.",
-            "language": {"name": "en"}
-        },
-        {
-            "flavor_text": "A tiny creature.",
-            "language": {"name": "fr"}
-        }
-    ]
-}
-
-@pytest.fixture
-def mock_requests_get_patch():
-    with patch("requests.get") as mock_get:
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = mock_response_data
-        mock_get.return_value = mock_response
-        yield mock_get
 
 def test_fetch_pokemon_species(mock_requests_get_patch):
     instance = PokeJokeController()
