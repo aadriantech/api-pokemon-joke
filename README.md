@@ -37,7 +37,7 @@ A simple service that provides details about Pokémon and offers some light-hear
    python main.py
    ```
 
-## Docker container
+## Usage Docker container
 1. Start the docker container:
    ```bash
    docker-compose up --build
@@ -56,7 +56,7 @@ A simple service that provides details about Pokémon and offers some light-hear
 
 ## API Endpoints
 
-- `poke-joke/species?pokemon={name}`: Get species information for a given Pokémon.
+- `/poke-joke/species?pokemon={name}`: Get species information for a given Pokémon.
 - `/poke-joke/speak?pokemon={name}`: Get skills of the given Pokémon and for it to say a joke.
 
 ## Contributing
