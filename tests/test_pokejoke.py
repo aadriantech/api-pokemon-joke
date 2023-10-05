@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask, json
 from app.controllers.PokeJokeController import PokeJokeController
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 # Mock the `requests.get` function
 @pytest.fixture
@@ -85,3 +85,37 @@ def test_fetch_pokemon_skills_failure(mock_requests_get):
     
     assert skills is None
 
+# Sample data to mock the API response
+mock_response_data = {
+    "name": "pikachu",
+    "flavor_text_entries": [
+        {
+            "flavor_text": "A mouse Pokémon.",
+            "language": {"name": "en"}
+        },
+        {
+            "flavor_text": "A tiny creature.",
+            "language": {"name": "fr"}
+        }
+    ]
+}
+
+@pytest.fixture
+def mock_requests_get_patch():
+    with patch("requests.get") as mock_get:
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = mock_response_data
+        mock_get.return_value = mock_response
+        yield mock_get
+
+def test_fetch_pokemon_species(mock_requests_get_patch):
+    instance = PokeJokeController()
+    result = instance.fetch_pokemon_species("pikachu")
+    
+    expected_result = {
+        "name": "pikachu",
+        "description": "A mouse Pokémon."
+    }
+    
+    assert result == expected_result

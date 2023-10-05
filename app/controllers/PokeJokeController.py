@@ -70,14 +70,11 @@ class PokeJokeController(MethodView):
     def species(self):
         pokemon_name = request.args.get('pokemon')
         
-        skills = self.fetch_pokemon_skills(pokemon_name)
-        joke = self.fetch_joke()
+        species = self.fetch_pokemon_species(pokemon_name)        
 
-        if skills and joke:
-            result = {
-                "pokemon_name": pokemon_name,
-                "skills": skills,
-                "joke": joke
+        if species:
+            result = {                
+                "data": species,       
             }
             return jsonify(result), 200
         else:
@@ -125,3 +122,35 @@ class PokeJokeController(MethodView):
         
         else:
             return f"{joke_data['setup']} {joke_data['delivery']}"
+
+    """
+    -------------------------------------------------
+    Retrieve pokemon species data
+    Params: none
+    Return: string
+    -------------------------------------------------
+    """
+    def fetch_pokemon_species(self, pokemon_name):
+        POKEAPI_ENDPOINT = "https://pokeapi.co/api/v2/pokemon-species/{}"
+        response = requests.get(POKEAPI_ENDPOINT.format(pokemon_name))
+        
+        if response.status_code != 200:
+            return None
+        
+        species_data = response.json()
+        
+        # Extract species name
+        species_name = species_data.get('name', None)
+        
+        # Extract English flavor texts
+        flavor_text_entries = species_data.get('flavor_text_entries', [])
+        english_flavor_texts = [entry['flavor_text'] for entry in flavor_text_entries if entry['language']['name'] == 'en']
+        
+        # Combining the species name with the first English flavor text description
+        # You can adjust this logic based on how you want to use the multiple flavor texts (if available).
+        description = english_flavor_texts[0] if english_flavor_texts else None
+        
+        return {
+            "name": species_name,
+            "description": description
+        }
