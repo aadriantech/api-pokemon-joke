@@ -54,6 +54,13 @@ A simple service that provides details about Pokémon and offers some light-hear
      http://localhost:5000/poke-joke/species?pokemon=bulbasaur
      ```
 
+## Unit Testing
+
+1. Run the test:
+   ```bash
+   pytest
+   ```
+
 ## API Endpoints
 
 - `/poke-joke/species?pokemon={name}`: Get species information for a given Pokémon.
