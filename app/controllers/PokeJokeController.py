@@ -12,9 +12,6 @@ class PokeJokeController(MethodView):
     """
     def get(self, action=None):  # Ensure this accepts the "action" parameter
         
-        # print(pokemon_name)
-        # sys.exit(1)
-        
         # Map actions to their respective functions
         switch = {
             "speak": self.speak,
