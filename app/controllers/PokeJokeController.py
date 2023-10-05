@@ -68,7 +68,7 @@ class PokeJokeController(MethodView):
     -------------------------------------------------
     """
     def species(self):
-        pokemon_name = request.args.get('pokemon')        
+        pokemon_name = request.args.get('pokemon')
         
         skills = self.fetch_pokemon_skills(pokemon_name)
         joke = self.fetch_joke()
