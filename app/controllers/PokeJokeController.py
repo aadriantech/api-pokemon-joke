@@ -10,19 +10,25 @@ class PokeJokeController(MethodView):
     Uses switch cases dictionary to route action names
     -------------------------------------------------
     """
-    def get(self, action=None):  # Ensure this accepts the "action" parameter
-        
-        # Map actions to their respective functions
-        switch = {
-            "speak": self.speak,
-            "species": self.species        
-        }
-                
-        # Retrieve the function based on the provided action
-        func = switch.get(action, self.default_case)
+    def get(self, action=None):
+        try:
+            # Map actions to their respective functions
+            switch = {
+                "speak": self.speak,
+                "species": self.species        
+            }
 
-        # Call and return the result of the function
-        return func()
+            # Retrieve the function based on the provided action
+            func = switch.get(action, self.default_case)
+
+            # Call and return the result of the function
+            return func()
+
+        except Exception as e:
+            # Handle or log the error
+            print(f"Error occurred: {e}")
+            return {"error": "An unexpected error occurred"}
+
     
     """ 
     -------------------------------------------------
