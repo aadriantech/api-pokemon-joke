@@ -5,10 +5,9 @@ import sys, requests
 class PokeJokeController(MethodView):
     
     """ 
-    -------------------------------------------------
     Controller function mapping
-    Uses switch cases dictionary to route action names
     -------------------------------------------------
+    Uses switch cases dictionary to route action names
     """
     def get(self, action=None):
         try:
@@ -31,20 +30,18 @@ class PokeJokeController(MethodView):
 
     
     """ 
-    -------------------------------------------------
     Return bad request if action not found
-    Return: JSON
     -------------------------------------------------
+    Return: JSON
     """
     def default_case(self):
         return jsonify({"info": "Bad request"}, 400)
         
     """
-    -------------------------------------------------
     Provides all the information for a given pokemon name
+    -------------------------------------------------
     Params: string:pokemon
     Return: JSON
-    -------------------------------------------------
     """
     def speak(self):        
         pokemon_name = request.args.get('pokemon')        
@@ -64,11 +61,10 @@ class PokeJokeController(MethodView):
 
 
     """
-    -------------------------------------------------
     Provides all the information for a given pokemon name
+    -------------------------------------------------
     Params: string:pokemon
     Return: JSON
-    -------------------------------------------------
     """
     def species(self):
         pokemon_name = request.args.get('pokemon')
@@ -84,11 +80,10 @@ class PokeJokeController(MethodView):
             return jsonify({"error": "Error fetching data."}), 500
     
     """
-    -------------------------------------------------
     Provides all the skills for a pokemon
+    -------------------------------------------------
     Params: string:pokemon
     Return: array
-    -------------------------------------------------
     """
     def fetch_pokemon_skills(self, pokemon_name):
         
@@ -104,11 +99,10 @@ class PokeJokeController(MethodView):
         return [move["move"]["name"] for move in pokemon_data["moves"]]        
 
     """
-    -------------------------------------------------
     Retrieve a joke from the Joke API
+    -------------------------------------------------
     Params: none
     Return: string
-    -------------------------------------------------
     """
     def fetch_joke(self):
         
@@ -127,11 +121,10 @@ class PokeJokeController(MethodView):
             return f"{joke_data['setup']} {joke_data['delivery']}"
 
     """
-    -------------------------------------------------
     Retrieve pokemon species data
+    -------------------------------------------------
     Params: none
     Return: string
-    -------------------------------------------------
     """
     def fetch_pokemon_species(self, pokemon_name):
         POKEAPI_ENDPOINT = "https://pokeapi.co/api/v2/pokemon-species/{}"
